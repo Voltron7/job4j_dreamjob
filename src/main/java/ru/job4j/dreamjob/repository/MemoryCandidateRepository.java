@@ -14,16 +14,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ThreadSafe
 @Repository
 public class MemoryCandidateRepository implements CandidateRepository {
-    private final AtomicInteger nextId = new AtomicInteger(1);
+    private final AtomicInteger nextId = new AtomicInteger(0);
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private MemoryCandidateRepository() {
-        save(new Candidate(0, "John", "description1", LocalDateTime.now()));
-        save(new Candidate(0, "Paul", "description2", LocalDateTime.now()));
-        save(new Candidate(0, "Bill", "description3", LocalDateTime.now()));
-        save(new Candidate(0, "Rose", "description4", LocalDateTime.now()));
-        save(new Candidate(0, "Mila", "description5", LocalDateTime.now()));
-        save(new Candidate(0, "Maria", "description6", LocalDateTime.now()));
+        save(new Candidate(0, "John", "description1", LocalDateTime.now(), 1));
+        save(new Candidate(0, "Paul", "description2", LocalDateTime.now(), 2));
+        save(new Candidate(0, "Bill", "description3", LocalDateTime.now(), 3));
+        save(new Candidate(0, "Rose", "description4", LocalDateTime.now(), 1));
+        save(new Candidate(0, "Mila", "description5", LocalDateTime.now(), 2));
+        save(new Candidate(0, "Maria", "description6", LocalDateTime.now(), 3));
     }
 
     @Override
@@ -40,9 +40,9 @@ public class MemoryCandidateRepository implements CandidateRepository {
 
     @Override
     public boolean update(Candidate candidate) {
-        return candidates.computeIfPresent(candidate.getId(), (id, oldCandidate) -> new Candidate(
-                oldCandidate.getId(), candidate.getName(), candidate.getDescription(),
-                candidate.getCreationDate())) != null;
+        return candidates.computeIfPresent(candidate.getId(), (id, oldCandidate) -> new Candidate(oldCandidate.getId(),
+                candidate.getName(), candidate.getDescription(), candidate.getCreationDate(),
+                candidate.getCityId())) != null;
     }
 
     @Override
