@@ -1,4 +1,4 @@
-create table candidates(
+create table if not exists candidates(
     id serial primary key,
     name varchar not null,
     description varchar not null,

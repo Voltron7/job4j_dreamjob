@@ -1,4 +1,4 @@
-create table vacancies(
+create table if not exists vacancies(
     id            serial primary key,
     title         varchar not null,
     description   varchar not null,
