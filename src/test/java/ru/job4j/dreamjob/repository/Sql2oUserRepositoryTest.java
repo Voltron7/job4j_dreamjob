@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.configuration.DatasourceConfiguration;
 import ru.job4j.dreamjob.model.User;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.empty;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class Sql2oUserRepositoryTest {
@@ -66,7 +66,6 @@ class Sql2oUserRepositoryTest {
     public void whenUserIsAlreadyExistsThenException() {
         User user = new User(1, "Val@gmail.com", "Val", "333");
         sql2oUserRepository.save(user);
-        assertThatThrownBy(() -> sql2oUserRepository.save(user))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(sql2oUserRepository.save(user)).isEqualTo(Optional.empty());
     }
 }
